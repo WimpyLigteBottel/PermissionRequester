@@ -16,7 +16,7 @@ data class AccessRequest(
     val accessType: AccessType,
     val targetUri: String,
     val credentialToAdd: String,
-    val reason:String
+    val reason: String
 )
 
 enum class AccessType {
@@ -26,14 +26,11 @@ enum class AccessType {
 }
 
 interface RequestPermission {
-
     fun generateRequest(accessRequest: AccessRequest)
     fun sendRequest(accessRequest: AccessRequest)
-    fun approveRequest(accessRequest: AccessRequest)
-    fun declineRequest(accessRequest: AccessRequest)
 }
 
-class RequestAccessUserEndpoint : RequestPermission{
+class RequestAccessUserEndpoint : RequestPermission {
     override fun generateRequest(accessRequest: AccessRequest) {
         TODO("Not yet implemented")
     }
@@ -41,14 +38,4 @@ class RequestAccessUserEndpoint : RequestPermission{
     override fun sendRequest(accessRequest: AccessRequest) {
         TODO("Not yet implemented")
     }
-
-    override fun approveRequest(accessRequest: AccessRequest) {
-        TODO("Not yet implemented")
-    }
-
-    override fun declineRequest(accessRequest: AccessRequest) {
-        TODO("Not yet implemented")
-    }
-
-
 }
