@@ -1,12 +1,19 @@
 package nel.marco.parser
 
-import org.springframework.core.io.Resource
 import java.net.URI
 
+data class DataToBeAdded(
+    val groupName: String = "",
+    val serviceName: String = "",
+    val bigQueryAccountName: String = "",
+    val textToAdd: String = ""
+)
 
 data class UpdateResourceRequest(
-    val resourceType:ResourceType,
-    val toBeAddedString: String
+    val resourceType: ResourceType,
+    val serviceName: String,
+    val toBeAdded: DataToBeAdded,
+    val yamlContent: String,
 )
 
 enum class ResourceType {
@@ -16,9 +23,5 @@ enum class ResourceType {
 }
 
 interface ParseResourceService {
-    fun retrieve(uri: URI): String
-    fun parse(resource: Resource): Map<String, Any>
-    fun update(
-        updateRequest: UpdateResourceRequest,
-    ): Map<String, Any>
+    fun update(updateRequest: UpdateResourceRequest): String
 }

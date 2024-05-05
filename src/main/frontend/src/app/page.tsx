@@ -1,54 +1,82 @@
 "use client";
-import { useState, useEffect } from "react";
-import {
-  getPersons,
-  createPerson,
-  createRandomPerson,
-  deletePerson,
-} from "./DataFetcher";
-import { Person } from "./Person";
+// pages/RequestForm.js
 
-export default function Home() {
-  const [persons, setPersons] = useState<Person[]>([]);
+import { useState } from 'react';
 
-  useEffect(() => {
-    const setupPersons = async () => {
-      let tempPersons = await getPersons();
-      setPersons(tempPersons);
-    };
+export default function RequestForm() {
+  const [formData, setFormData] = useState({
+    from: '',
+    toTeam: '',
+    resourceUrl: '',
+    reason: ''
+  });
 
-    setupPersons();
-  }, []); // Empty dependency array to run effect only once when component mounts
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Here you can handle the form submission, e.g., send the data to a backend API
+    console.log(formData);
+    // Reset the form after submission
+    setFormData({
+      from: '',
+      toTeam: '',
+      resourceUrl: '',
+      reason: ''
+    });
+  };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>
-        {persons.map((person,index) => (
-          <div key={index}>
-            <span>name:{person.name} </span>
-            <span>age: {person.age} </span>
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onClick={async () => {
-                await deletePerson(person.id);
-                setPersons(await getPersons());
-              }}
-            >
-              Remove
-            </button>
-            <br />
-          </div>
-        ))}
-      </div>
-
-      <button
-        onClick={async () => {
-          await createRandomPerson();
-          setPersons(await getPersons());
-        }}
-      >
-        Click me!
-      </button>
-    </main>
+    <div>
+      <h1>Permission Request Form</h1>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label htmlFor="from">From:</label>
+          <input
+            type="text"
+            id="from"
+            name="from"
+            value={formData.from}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="toTeam">To Team:</label>
+          <input
+            type="text"
+            id="toTeam"
+            name="toTeam"
+            value={formData.toTeam}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="resourceUrl">Resource URL:</label>
+          <input
+            type="text"
+            id="resourceUrl"
+            name="resourceUrl"
+            value={formData.resourceUrl}
+            onChange={handleChange}
+          />
+        </div>
+        <div>
+          <label htmlFor="reason">Reason:</label>
+          <textarea
+            id="reason"
+            name="reason"
+            value={formData.reason}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+        <button type="submit">Submit Request</button>
+      </form>
+    </div>
   );
 }
